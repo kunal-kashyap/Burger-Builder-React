@@ -19,7 +19,8 @@ class BurgerBuilder extends Component {
             bacon: 0,
             meat: 0,
         },
-        totalPrice: 4
+        totalPrice: 4,
+        purchasable: false,
     }
 
     addIngredientHandler = (type) => {
@@ -35,6 +36,7 @@ class BurgerBuilder extends Component {
         const oldPrice = this.state.totalPrice;
         const newPrice =  oldPrice + priceAddition;
         this.setState({totalPrice: newPrice, ingredients: updatedIngredients})
+        this.updatePurchaseState(updatedIngredients);
     }
 
     removeIngredientHandler = (type) => {
@@ -51,8 +53,19 @@ class BurgerBuilder extends Component {
         updatedIngredients[type] = updatedCount;
         const priceDeduction = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
-        const newPrice =  oldPrice + priceDeduction;
+        const newPrice =  oldPrice - priceDeduction;
         this.setState({totalPrice: newPrice, ingredients: updatedIngredients})
+        this.updatePurchaseState(updatedIngredients);
+    }
+
+    updatePurchaseState = (ingredients) => {
+        const sum = Object.keys(ingredients).map((key) => {
+            return ingredients[key]
+        }).reduce((sum, el) => {
+            return sum + el;
+        }, 0);
+
+        this.setState({purchasable: sum > 0});
     }
 
     render() {
@@ -63,7 +76,7 @@ class BurgerBuilder extends Component {
         for (let key in disabledInfo){
             disabledInfo[key] = disabledInfo[key] <= 0;
         }
-        let {ingredients, totalPrice} = this.state;
+        let {ingredients, totalPrice, purchasable} = this.state;
         return (
             <Aux>
                 <Burger ingredients={ingredients}/>
@@ -71,6 +84,7 @@ class BurgerBuilder extends Component {
                     ingredientAdded={this.addIngredientHandler} 
                     ingredientRemoved={this.removeIngredientHandler}
                     disabled={disabledInfo}
+                    purchasable={purchasable}
                     price={totalPrice}
                     />
             </Aux>
