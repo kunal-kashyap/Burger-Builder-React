@@ -1,0 +1,4 @@
+export const actions = {
+    ADD_INGREDIENTS: 'ADD_INGREDIENTS',
+    REMOVE_INGREDIENTS: 'REMOVE_INGREDIENTS'
+}
