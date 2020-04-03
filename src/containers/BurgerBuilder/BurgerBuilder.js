@@ -10,7 +10,8 @@ import Burger from '../../components/Burger/Burger'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import Loader from '../../components/UI/Loader/Loader'
 import WithErrorHandler from '../../HOC/WithErrorHandler/WithErrorHandler'
-import {addIngredients, removeIngredients} from '../../store/actions'
+import {addIngredients, removeIngredients, fetchIngredients} from './store/actions'
+import burgerBuilderReducer from "./store/reducers";
 
 class BurgerBuilder extends Component {
     state = {
@@ -19,15 +20,11 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount(){
-        axios.get('/ingredients.json')
-             .then(response => {
-                 this.setState({ingredients: response.data})
-             })
-             .catch(err => {})
+        this.props.fetchIngredients()
     }
 
     updatePurchaseState = (ingredients) => {
-        const sum = Object.keys(ingredients).map((key) => {
+        const sum = ingredients && Object.keys(ingredients).map((key) => {
             return ingredients[key]
         }).reduce((sum, el) => {
             return sum + el;
@@ -88,15 +85,16 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        ingredients: state.ingredients,
-        totalPrice: state.totalPrice,
+        ingredients: state.burgerBuilder.ingredients,
+        totalPrice: state.burgerBuilder.totalPrice,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return{
         onIngredientAdded: (ingName) => dispatch(addIngredients(ingName)),
-        onIngredientRemoved: (ingName) => dispatch(removeIngredients(ingName))
+        onIngredientRemoved: (ingName) => dispatch(removeIngredients(ingName)),
+        fetchIngredients: () => dispatch(fetchIngredients())
     }
 }
 

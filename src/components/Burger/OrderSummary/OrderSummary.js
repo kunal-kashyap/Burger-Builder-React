@@ -4,7 +4,7 @@ import Aux from '../../../HOC/auxiliary/Auxiliary'
 import Button from '../../UI/Button/Button'
 
 const OrderSummary = (props) => {
-    const ingredientSummary = Object.keys(props.ingredients).map(key => {
+    const ingredientSummary = props.ingredients && Object.keys(props.ingredients).map(key => {
         return (
         <li key={key}>
             <span style={{textTransform: 'capitalize'}}>{key}</span>
