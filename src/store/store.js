@@ -1,5 +1,6 @@
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware, compose} from 'redux'
 import rootReducer from './reducer'
+import thunk from 'redux-thunk'
 
 const logger = store => { 
     return next => {
@@ -11,6 +12,7 @@ const logger = store => {
         }
     }
 }
-const store = createStore(rootReducer, applyMiddleware(logger))
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, thunk)))
 
 export default store

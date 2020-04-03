@@ -10,7 +10,7 @@ import Burger from '../../components/Burger/Burger'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import Loader from '../../components/UI/Loader/Loader'
 import WithErrorHandler from '../../HOC/WithErrorHandler/WithErrorHandler'
-import {actions} from '../../store/action'
+import {addIngredients, removeIngredients} from '../../store/actions'
 
 class BurgerBuilder extends Component {
     state = {
@@ -95,8 +95,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        onIngredientAdded: (ingName) => dispatch({type: actions.ADD_INGREDIENTS, ingName }),
-        onIngredientRemoved: (ingName) => dispatch({type: actions.REMOVE_INGREDIENTS, ingName })
+        onIngredientAdded: (ingName) => dispatch(addIngredients(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(removeIngredients(ingName))
     }
 }
 
