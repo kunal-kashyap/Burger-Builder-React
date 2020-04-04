@@ -1,32 +1,22 @@
-import {actions} from './constants'
-import axios from "../../../axios-orders";
+import { actions } from './constants';
+import axios from '../../../axios-orders';
 
-export const addIngredients = (ingName) => {
-    return {
-        type: actions.ADD_INGREDIENTS,
-        ingName,
-    }
-}
-
-
-export const removeIngredients = (ingName) => {
-    return {
-        type: actions.REMOVE_INGREDIENTS,
-        ingName,
-    }
-}
-
-export const fetchIngredients = () => {
-    return dispatch => {
-        axios.get('/ingredients.json')
-            .then(response => {
-                dispatch({
-                    type: actions.FETCH_INGREDIENTS,
-                    ingredients: response.data,
-                })
-            })
-            .catch(err => {
-                console.log("Error occurred while fetching ingredients: ", err)
-            })
-    }
-}
+export const fetchOrders = () => {
+  return (dispatch) => {
+    axios
+      .get('/orders.json')
+      .then((response) => {
+        let orders = [];
+        for (let k in response.data) {
+          orders.push({ [k]: response.data[k] });
+        }
+        dispatch({
+          type: actions.FETCH_ORDERS,
+          orders,
+        });
+      })
+      .catch((err) => {
+        console.log('Error occurred while fetching orders: ', err);
+      });
+  };
+};

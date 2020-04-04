@@ -1,16 +1,16 @@
 .Order {
-    width: 100%;
-    border: 1px solid #eee;
-    box-shadow:  0 2px 3px #ccc;
-    padding: 10px;
-    margin: 10px auto;
-    box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  padding: 10px;
+  margin: 10px auto;
+  box-sizing: border-box;
 }
 
-.Order .ingredient{
-    display: inline-block;
-    border: 1px solid #999;
-    padding: 5px 10px;
-    border-radius: 3px;
-    margin:0 10px;
+.Order .ingredient {
+  display: inline-block;
+  border: 1px solid #999;
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin: 0 10px;
 }

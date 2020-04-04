@@ -1,14 +1,16 @@
-import React from 'react'
-import {NavLink} from 'react-router-dom'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-import classes from './NavigationItem.css'
+import classes from './NavigationItem.css';
 
 const NavigationItem = (props) => {
-    return (
-        <li className={classes.NavigationItem}>
-            <NavLink exact to={props.link} activeClassName={classes.active}>{props.children}</NavLink>
-        </li>
-    )
-}
+  return (
+    <li className={classes.NavigationItem}>
+      <NavLink exact to={props.link} activeClassName={classes.active}>
+        {props.children}
+      </NavLink>
+    </li>
+  );
+};
 
-export default NavigationItem
+export default NavigationItem;
