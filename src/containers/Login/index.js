@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import FormElement from '../../components/UI/FormElement/FormElement';
 import Button from '../../components/UI/Button/Button';
 
 import classes from './style.css';
 import { REGEX } from '../../utils/constants';
+import { onSubmitLogin } from './store/actions';
 
 class Login extends Component {
   state = {
@@ -15,7 +17,16 @@ class Login extends Component {
 
   errors = {};
 
-  submitLoginForm = () => {};
+  submitLoginForm = (e) => {
+    e.preventDefault();
+    const { onSubmitLogin } = this.props,
+      { userName, password } = this.state;
+    let params = {
+      userName,
+      password,
+    };
+    onSubmitLogin(params);
+  };
   changeHandler = (name, value) => {
     this.setState({ [name]: value });
 
@@ -99,4 +110,14 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSubmitLogin: (params) => dispatch(onSubmitLogin(params)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
