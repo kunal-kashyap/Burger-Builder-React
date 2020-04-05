@@ -10,9 +10,10 @@ import { onSubmitLogin } from './store/actions';
 
 class Login extends Component {
   state = {
-    userName: '',
+    email: '',
     password: '',
     errors: {},
+    isSignUp: false,
   };
 
   errors = {};
@@ -20,12 +21,13 @@ class Login extends Component {
   submitLoginForm = (e) => {
     e.preventDefault();
     const { onSubmitLogin } = this.props,
-      { userName, password } = this.state;
+      { email, password, isSignUp } = this.state;
     let params = {
-      userName,
+      email,
       password,
+      returnSecureToken: true,
     };
-    onSubmitLogin(params);
+    onSubmitLogin(params, isSignUp);
   };
   changeHandler = (name, value) => {
     this.setState({ [name]: value });
@@ -42,7 +44,7 @@ class Login extends Component {
         case 'userName':
           REGEX.USER_NAME.test(value)
             ? delete this.errors[name]
-            : (this.errors.userName = 'Invalid Name Format');
+            : (this.errors.email = 'Invalid Name Format');
           break;
         case 'password':
           REGEX.PASSWORD.test(value)
@@ -60,31 +62,38 @@ class Login extends Component {
   };
 
   checkFormValidity = () => {
-    const { userName, password } = this.state,
+    const { email, password } = this.state,
       { errors } = this.state;
 
     return (
-      userName.length > 0 &&
+      email.length > 0 &&
       password.length > 0 &&
       Object.keys(errors).length === 0
     );
   };
+
+  switchSignMode = (e) => {
+    e.preventDefault();
+    this.setState((prevState) => {
+      return { isSignUp: !prevState.isSignUp };
+    });
+  };
   render() {
-    const { userName, password, errors } = this.state;
+    const { email, password, errors, isSignUp } = this.state;
     let isValid = this.checkFormValidity();
     return (
       <div className={classes.loginForm}>
-        <h2>Login !</h2>
+        <h2> {!isSignUp ? 'Login !' : 'Sign Up !'}</h2>
         <form>
           <FormElement
             errorMessage={errors.userName}
             chandler={this.changeHandler}
-            value={userName}
+            value={email}
             formType="input"
             type="text"
-            name="userName"
-            placeholder="Enter User Name"
-            label="User Name"
+            name="email"
+            placeholder="Enter Email"
+            label="User Email ID"
           />
           <FormElement
             errorMessage={errors.password}
@@ -104,6 +113,9 @@ class Login extends Component {
           >
             Submit
           </Button>
+          <Button btnType="Danger" clicked={this.switchSignMode}>
+            Switch To {isSignUp ? 'SignIn' : 'SignUp'}
+          </Button>
         </form>
       </div>
     );
@@ -116,7 +128,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSubmitLogin: (params) => dispatch(onSubmitLogin(params)),
+    onSubmitLogin: (params, isSignUp) =>
+      dispatch(onSubmitLogin(params, isSignUp)),
   };
 };
 
