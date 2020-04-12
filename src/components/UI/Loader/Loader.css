@@ -1,11 +1,21 @@
-.loader,
-.loader:after {
+.mainLoader {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.14);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.mainLoader .loader,
+.mainLoader .loader:after {
   border-radius: 50%;
   width: 10em;
   height: 10em;
 }
-.loader {
-  margin: 60px auto;
+.mainLoader .loader {
+  margin: 160px auto;
   font-size: 10px;
   position: relative;
   text-indent: -9999em;

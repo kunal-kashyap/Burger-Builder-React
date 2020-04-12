@@ -1,12 +1,12 @@
 import { actions } from './constants';
 
 const initialState = {};
-const orderReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.ON_SUBMIT_LOGIN:
       return {
         ...state,
-        orderResponse: action.resp,
+        loginAuth: action.resp,
       };
 
     default:
@@ -14,4 +14,4 @@ const orderReducer = (state = initialState, action) => {
   }
 };
 
-export default orderReducer;
+export default authReducer;
