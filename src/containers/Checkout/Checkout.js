@@ -24,6 +24,7 @@ class Checkout extends Component {
           ingredients={ingredients}
         />
         <Route
+          exact
           path={this.props.match.path + '/contact-data'}
           component={ContactData}
         />

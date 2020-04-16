@@ -14,3 +14,7 @@ export const REGEX = {
   SPECIAL_CHARACTERS: /[^a-zA-Z0-9]/,
   ARN: /^[a-zA-Z0-9-]+$/,
 };
+
+export const getAuthToken = () => {
+  return localStorage.getItem('loginToken') || null;
+};

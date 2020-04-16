@@ -8,8 +8,48 @@
   height: 100%;
 }
 
+.logoutLink {
+  margin: 10px 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.logoutLink a {
+  color: #8f5c2c;
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+}
+
 @media (min-width: 500px) {
   .NavigationItems {
     flex-flow: row;
+  }
+
+  .logoutLink {
+    margin: 0;
+    width: auto;
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+
+  .logoutLink a {
+    color: #fff;
+    text-decoration: none;
+    height: 100%;
+    padding: 16px 10px;
+    border-bottom: 4px solid transparent;
+    box-sizing: border-box;
+    display: block;
+  }
+
+  .logoutLink a:hover,
+  .logoutLink a:active,
+  .logoutLink a.active {
+    background: #8f5c2c;
+    border-bottom: 4px solid #40a4c8;
+    color: white;
   }
 }

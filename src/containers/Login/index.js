@@ -5,8 +5,8 @@ import FormElement from '../../components/UI/FormElement/FormElement';
 import Button from '../../components/UI/Button/Button';
 
 import classes from './style.css';
-import { REGEX } from '../../utils/constants';
-import { onSubmitLogin } from './store/actions';
+import { getAuthToken, REGEX } from '../../utils/constants';
+import { onSubmitLogin, onLogout } from './store/actions';
 
 class Login extends Component {
   state = {
@@ -18,7 +18,22 @@ class Login extends Component {
 
   errors = {};
 
-  submitLoginForm = (e) => {
+  componentDidMount() {
+    this.loadHandler();
+  }
+
+  loadHandler = async () => {
+    if (this.props.location.fromLogout) {
+      await this.props.onLogout();
+      localStorage.removeItem('loginToken');
+    }
+
+    if (getAuthToken() != null) {
+      this.props.history.push('/home');
+    }
+  };
+
+  submitLoginForm = async (e) => {
     e.preventDefault();
     const { onSubmitLogin } = this.props,
       { email, password, isSignUp } = this.state;
@@ -27,8 +42,10 @@ class Login extends Component {
       password,
       returnSecureToken: true,
     };
-    onSubmitLogin(params, isSignUp);
+    await onSubmitLogin(params, isSignUp);
+    this.props.history.push('/home');
   };
+
   changeHandler = (name, value) => {
     this.setState({ [name]: value });
 
@@ -122,15 +139,12 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {};
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmitLogin: (params, isSignUp) =>
       dispatch(onSubmitLogin(params, isSignUp)),
+    onLogout: () => dispatch(onLogout()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

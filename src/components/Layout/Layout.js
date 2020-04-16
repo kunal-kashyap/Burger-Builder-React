@@ -6,11 +6,21 @@ import Toolbar from '../Navigation/Toolbar/Toolbar';
 import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 import Loader from '../UI/Loader/Loader';
 import { connect } from 'react-redux';
+import { getAuthToken } from '../../utils/constants';
+import {
+  getAuthState,
+  onLogout,
+  onSubmitLogin,
+} from '../../containers/Login/store/actions';
 
 class Layout extends Component {
   state = {
     showSideDrawer: false,
   };
+
+  componentDidMount() {
+    this.props.getAuthState();
+  }
 
   sideDrawerClosedHandler = () => {
     this.setState((prevState) => ({
@@ -19,15 +29,20 @@ class Layout extends Component {
   };
 
   render() {
+    const { loader, isLoggedIn, children } = this.props,
+      { showSideDrawer } = this.state;
     return (
       <Auxiliary>
-        <Toolbar OpenMenu={this.sideDrawerClosedHandler} />
+        <Toolbar
+          isLoggedIn={isLoggedIn}
+          OpenMenu={this.sideDrawerClosedHandler}
+        />
         <SideDrawer
-          open={this.state.showSideDrawer}
+          open={showSideDrawer}
           closed={this.sideDrawerClosedHandler}
         />
-        {this.props.loader.showLoader && <Loader />}
-        <main className={classes.Content}>{this.props.children}</main>
+        {loader.showLoader && <Loader />}
+        <main className={classes.Content}>{children}</main>
       </Auxiliary>
     );
   }
@@ -40,7 +55,14 @@ Layout.defaultProps = {
 const mapStateToProps = (state) => {
   return {
     loader: state.loader,
+    isLoggedIn: state.auth.isLoggedIn,
   };
 };
 
-export default connect(mapStateToProps)(Layout);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAuthState: () => dispatch(getAuthState()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

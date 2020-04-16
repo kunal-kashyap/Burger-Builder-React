@@ -15,9 +15,11 @@ const Toolbar = (props) => {
       <div>
         <Logo />
       </div>
-      <nav className={classes.DesktopOnly}>
-        <NavigationItems />
-      </nav>
+      {props.isLoggedIn && (
+        <nav className={classes.DesktopOnly}>
+          <NavigationItems />
+        </nav>
+      )}
     </header>
   );
 };

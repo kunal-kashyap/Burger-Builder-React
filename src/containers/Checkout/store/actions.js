@@ -1,10 +1,11 @@
 import { actions } from './constants';
 import axios from '../../../axios-orders';
+import { getAuthToken } from '../../../utils/constants';
 
 export const letsOrders = (order) => {
   return (dispatch) => {
     axios
-      .post('/orders.json', order)
+      .post(`/orders.json?auth=${getAuthToken()}`, order)
       .then((response) => {
         dispatch({
           type: actions.ORDER_A_BURGER,

@@ -6,7 +6,11 @@ import classes from './NavigationItem.css';
 const NavigationItem = (props) => {
   return (
     <li className={classes.NavigationItem}>
-      <NavLink exact to={props.link} activeClassName={classes.active}>
+      <NavLink
+        exact
+        to={{ pathname: props.link, fromLogout: props.fromLogout }}
+        activeClassName={classes.active}
+      >
         {props.children}
       </NavLink>
     </li>
